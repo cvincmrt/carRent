@@ -59,4 +59,28 @@ class VehicleRepository
             ]);
     }
 
+    public function createVehicle(Vehicle $vehicle){
+        
+        $type = basename(get_class($vehicle));
+
+        $sql = "INSERT INTO vehicles (type, brand, model, daily_rate, is_available, spec_param) VALUES (:type, :brand, :model, :daily_rate, :is_available, :spec_param)";
+
+        $stmt = $this->db->prepare($sql);
+
+        if($vehicle instanceof Sedan){
+            $spec_param = $vehicle->getIsLuxury();
+        }elseif($vehicle instanceof Truck){
+            $spec_param = $vehicle->getMaxLoad();
+        }
+
+        return $stmt->execute([
+            ":type" => $type,
+            ":brand" => $vehicle->getBrand(),
+            ":model" => $vehicle->getModel(),
+            ":daily_rate"  => $vehicle->getDailyRate(),
+            ":is_available"  => $vehicle->getIsAvailable(),
+            ":spec_param"  => $spec_param
+        ]);
+        
+    }
 }

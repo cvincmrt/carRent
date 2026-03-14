@@ -7,18 +7,30 @@ use App\Sedan;
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap demo</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <style>
+            .row{
+                margin-top: 0;
+            }
+            
+            .row .col:last-child{
+                text-align: right;  
+            }
+        </style>
+
+    </head>
   <body>
     
     <div class="container">
-       <h1>CarRent management</h1><br>
+        <h1>CarRent management</h1><br>
 
-       <table class="table table-striped table-hover">
+        <?php include "addVehicle.php"; ?>
+
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th scope="col">Brand</th>
