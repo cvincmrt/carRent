@@ -1,6 +1,7 @@
 <?php
-use App\Cat;
-use App\Dog;
+
+use App\Truck;
+use App\Sedan;
 
 ?>
 
@@ -17,14 +18,13 @@ use App\Dog;
     <div class="container">
        <h1>CarRent management</h1><br>
 
-    
-
-        <table class="table table-striped table-hover">
+       <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th scope="col">Brand</th>
                     <th scope="col">Model</th>
                     <th scope="col">Daily_rate</th>
+                    <th scope="col">Insurance</th>
                     <th scope="col">Is_available</th>
                     <th scope="col">Spec_param</th>
                     <th scope="col">Action</th>
@@ -35,35 +35,34 @@ use App\Dog;
                     <tr>
                         <td><?= $vehicle->getBrand(); ?></td>
                         <td><?= $vehicle->getModel(); ?></td>
-                        <td><?= $vehicle->getIsAvailable() ? "red" : "green"; ?></td>
+                        <td><?= $vehicle->getDailyRate(); ?></td>
+                        <td><?= $vehicle->calculateInsurance(); ?></td>
                         <td>
-                            <?php if($animal->getIsAdopted()):  ?>
-                                 <span class="badge bg-success p-2">at home</span>
-                                
-                            <?php else: ?>
-                               
-                               <form method="POST">
-                                    <input type="hidden" name="animal_id" value="<?= $animal->getId(); ?>">
-                                    <input type="submit" name="action" class="btn btn-sm btn-outline-danger" value="adopt">
-                                </form>
-                            <?php endif; ?>
-                        </td>
-
-
-                        <td><?php 
-                            if($animal instanceof Dog){
-                                echo $animal->getBreed(); 
-                            }elseif($animal instanceof Cat){
-                                echo $animal->getIsOutdoor() ? "outdoor" : "indoor";
-                            }
-                            ?>
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="vehicle_id" value="<?= $vehicle->getId(); ?>">
+                                <?php if($vehicle->getIsAvailable()): ?>
+                                    <button type="submit" class="btn btn-primary">Return</button>
+                                <?php else:?>
+                                    <button type="submit" class="btn btn-success">Lend</button>
+                                <?php endif; ?>
+                            </form>    
                         </td>
                         <td>
-                           <form method="POST">
-                                <input type="hidden" name="animal_id" value="<?= $animal->getId(); ?>">
-                                <input class="btn btn-sm btn-danger" type="submit" name="action" value="delete">
-                           </form>
-                        </td> 
+                            <?php if($vehicle instanceof Sedan): ?>
+                                <span><?= $vehicle->getIsLuxury() ? "luxus" : "standard"; ?></span>
+                            <?php elseif($vehicle instanceof Truck): ?>
+                                <span><?= $vehicle->getMaxLoad()." ton"; ?></span>
+                            <?php endif; ?>     
+                        </td>
+                        <td>
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="vehicle_id" value="<?= $vehicle->getId(); ?>">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                       
                     </tr>
                 <?php endforeach; ?>        
             </tbody>

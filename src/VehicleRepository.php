@@ -30,6 +30,7 @@ class VehicleRepository
                
 
             if($vehicle){
+                $vehicle->setId($row["id"]);
                 $vehicles[] = $vehicle;
             }
         }
