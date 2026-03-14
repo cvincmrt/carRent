@@ -39,12 +39,13 @@ use App\Sedan;
                         <td><?= $vehicle->calculateInsurance(); ?></td>
                         <td>
                             <form action="index.php" method="POST">
-                                <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="action" value="updateAvailable">
+                                <input type="hidden" name="status" value="<?= $vehicle->getIsAvailable(); ?>">
                                 <input type="hidden" name="vehicle_id" value="<?= $vehicle->getId(); ?>">
                                 <?php if($vehicle->getIsAvailable()): ?>
-                                    <button type="submit" class="btn btn-primary">Return</button>
+                                    <button type="submit" class="btn btn-warning">Return</button>
                                 <?php else:?>
-                                    <button type="submit" class="btn btn-success">Lend</button>
+                                    <button type="submit" class="btn btn-success">&nbsp&nbspLend&nbsp</button>
                                 <?php endif; ?>
                             </form>    
                         </td>
@@ -62,7 +63,6 @@ use App\Sedan;
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
-                       
                     </tr>
                 <?php endforeach; ?>        
             </tbody>
