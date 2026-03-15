@@ -2,6 +2,8 @@
 
 namespace App;
 
+use PDO;
+
 class UserRepository
 {
     private PDO $db;
@@ -9,7 +11,7 @@ class UserRepository
     public function __construct(PDO $connect){
         $this->db = $connect;
     }
-    
+
     public function create(User $user){
         $sql = "INSERT INTO users (username, password, role) VALUES (:username, :password, :role)";
         $stmt = $this->db->prepare($sql);
@@ -22,23 +24,22 @@ class UserRepository
 
     }
 
-    public function findByUsername($username){
-        $user = null;
-
+    public function findByUsername($username): ?User
+    {
         $sql = "SELECT * FROM users WHERE username = :username LIMIT 1";
         $stmt = $this->db->prepare($sql);
 
         $stmt->execute([":username" => $username]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            
-            $user = new User($row["username"], $row["role"]);
-            $user->setHashedPassword($row["password"]);
+        if(!$row){
+            return null;
         }
-
-        if($user){
-            return $user;
-        }
-
+        
+        $user = new User($row["username"], (int)$row["role"]);
+        $user->setId((int)$row["id"]);
+        $user->setHashedPassword($row["password"]);
+        
+        return $user;
     }
 }
