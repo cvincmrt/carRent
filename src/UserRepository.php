@@ -21,7 +21,6 @@ class UserRepository
             ":password" => $user->getPassword(),
             ":role" => $user->getRole()
         ]);
-
     }
 
     public function findByUsername($username): ?User

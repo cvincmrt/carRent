@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use App\Vehicle;
@@ -7,12 +9,18 @@ use App\Sedan;
 use App\Database;
 use App\VehicleController;
 use App\VehicleRepository;
+use App\AuthController;
+use App\UserRepository;
+
 
 $pdo = new Database();
 $connect = $pdo->getConnect();
 
-$repo = new VehicleRepository($connect);
+$userRepo = new UserRepository($connect);
+$authController = new AuthController($userRepo);
+$authController->handleRequest();
 
+$repo = new VehicleRepository($connect);
 $controller = new VehicleController($repo);
 $controller->handleRequest();
 
