@@ -24,7 +24,26 @@ use App\Sedan;
 
     </head>
   <body>
-    
+    <?php var_dump($_SESSION) ;?>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <span>Prihlásený ako: <strong><?= $_SESSION['username'] ?></strong> (Rola: <?= $_SESSION['role'] == 1 ? 'Admin' : 'User' ?>)</span>
+        <form action="index.php" method="POST" style="display:inline;">
+            <input type="hidden" name="action" value="logout">
+            <button type="submit" class="btn btn-outline-danger btn-sm">Odhlásiť sa</button>
+        </form>
+    <?php else: ?>
+        <form action="index.php" method="POST" class="row g-2">
+            <input type="hidden" name="action" value="login">
+            <div class="col-auto"><input type="text" name="username" class="form-control" placeholder="Meno" required></div>
+            <div class="col-auto"><input type="password" name="password" class="form-control" placeholder="Heslo" required></div>
+            <div class="col-auto"><button type="submit" class="btn btn-primary">Prihlásiť</button></div>
+        </form>
+    <?php endif; ?>
+</div>
+
+
     <div class="container">
         <h1>CarRent management</h1><br>
 

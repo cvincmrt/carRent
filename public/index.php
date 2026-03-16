@@ -7,6 +7,7 @@ use App\Vehicle;
 use App\Truck;
 use App\Sedan;
 use App\Database;
+use App\User;
 use App\VehicleController;
 use App\VehicleRepository;
 use App\AuthController;
@@ -25,6 +26,7 @@ $controller = new VehicleController($repo);
 $controller->handleRequest();
 
 $vehicles = $repo->getAll();
+
 
 include __DIR__ . "/../view/dashboard.php";
 
