@@ -37,7 +37,7 @@ class AuthController
             $_SESSION["user_id"] = $user->getId();
             $_SESSION["username"] = $user->getUsername();
             $_SESSION["role"] = $user->getRole();
-        }else{echo "po pici";}
+        }
 
         $this->redirect();
     }
