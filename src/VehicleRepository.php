@@ -47,14 +47,12 @@ class VehicleRepository
 
     public function updateAvailable($vehicle_id, $status){
 
-        $new_status = $status ? 0 : 1;
-
             $sql = "UPDATE vehicles SET is_available = :new_status WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
 
             return $stmt->execute([
-                ":new_status" => $new_status,
+                ":new_status" => $status,
                 "id" => $vehicle_id
             ]);
     }
@@ -82,5 +80,28 @@ class VehicleRepository
             ":spec_param"  => $spec_param
         ]);
         
+    }
+
+    public function addRental(int $user_id, int $vehicleId)
+    {
+        $sql ="INSERT INTO rentals (user_id, vehicle_id) VALUES (:user_id, :vehicle_id)";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            ":user_id" => $user_id,
+            ":vehicle_id" => $vehicleId
+        ]);
+    }
+
+    public function getRentalHistory(){
+        $sql = "SELECT rentals.rented_at,users.username,vehicles.brand,vehicles.model FROM rentals 
+                JOIN users ON rentals.user_id = users.id
+                JOIN vehicles ON rentals.vehicle_id = vehicles.id
+                ORDER BY rentals.rented_at DESC";
+        
+        $stmt = $this->db->query($sql);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

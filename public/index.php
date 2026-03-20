@@ -26,6 +26,8 @@ $controller = new VehicleController($repo);
 $controller->handleRequest();
 
 $vehicles = $repo->getAll();
+$history = $repo->getRentalHistory();
+
 
 
 include __DIR__ . "/../view/dashboard.php";

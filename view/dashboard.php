@@ -27,13 +27,13 @@ use App\Sedan;
    
     <div class="container">
         <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger">
+            <div class="alert alert-danger" id="message">
                 <?= $_SESSION['error']; unset($_SESSION['error']); ?>
             </div>
         <?php endif; ?>
 
         <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success">
+            <div class="alert alert-success" id="message">
                 <?= $_SESSION['success']; unset($_SESSION['success']); ?>
             </div>
         <?php endif; ?>
@@ -108,10 +108,10 @@ use App\Sedan;
                                 <input type="hidden" name="action" value="updateAvailable">
                                 <input type="hidden" name="status" value="<?= $vehicle->getIsAvailable(); ?>">
                                 <input type="hidden" name="vehicle_id" value="<?= $vehicle->getId(); ?>">
-                                <?php if($vehicle->getIsAvailable()): ?>
-                                    <button type="submit" class="btn btn-warning">Return</button>
-                                <?php else:?>
+                                <?php if($vehicle->getIsAvailable() === 1): ?>
                                     <button type="submit" class="btn btn-success">&nbsp&nbspLend&nbsp</button>
+                                <?php else:?>
+                                    <button type="submit" class="btn btn-warning">Return</button>
                                 <?php endif; ?>
                             </form>    
                         </td>
@@ -134,6 +134,40 @@ use App\Sedan;
             </tbody>
         </table>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+    <hr class="my-5">
+<h3>História výpožičiek</h3>
+<table class="table table-sm table-bordered mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>Dátum a čas</th>
+            <th>Používateľ</th>
+            <th>Vozidlo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($history as $record): ?>
+            <tr>
+                <td><?= $record['rented_at'] ?></td>
+                <td><?= $record['username'] ?></td>
+                <td><?= $record['brand'] . " " . $record['model'] ?></td>
+            </tr>
+        <?php endforeach; ?>
+        <?php if(empty($history)): ?>
+            <tr><td colspan="3" class="text-center">Zatiaľ žiadne výpožičky.</td></tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+    </script>
+    <script>    
+        setTimeout(function() {
+        var msg = document.getElementById('message');
+        if (msg) {
+            msg.style.display = 'none';
+        }
+    }, 3000);
+    </script>
   </body>
 </html>

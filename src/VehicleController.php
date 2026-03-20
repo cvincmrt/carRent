@@ -36,7 +36,21 @@ class VehicleController
     }
 
     private function update(){
-        $this->repo->updateAvailable($_POST["vehicle_id"], $_POST["status"]);
+        
+        $vehicleId = (int)$_POST["vehicle_id"];
+        $status = (int)$_POST["status"];
+        
+        if($status === 1){
+            if(isset($_SESSION["user_id"])){
+                $this->repo->addRental((int)$_SESSION["user_id"], $vehicleId);
+                $this->repo->updateAvailable($vehicleId, 0);
+            }else{
+                $_SESSION["error"] = "Ak si chces poyicat auto musis byt prihlaseny!!!";
+            }
+        }else{
+            $this->repo->updateAvailable($vehicleId, 1);
+        }
+
         $this->redirect();
     }
 
@@ -52,7 +66,7 @@ class VehicleController
         $brand = $_POST["brand"]?? "";
         $model = $_POST["model"]?? "";
         $daily_rate = $_POST["daily_rate"]?? 0;
-        $is_available = $_POST["is_available"] === "Return" ? 1 : 0;
+        $is_available = $_POST["is_available"] === "Return" ? 0 : 1;
         $spec_param = $_POST["spec_param"] === "luxus" ? 1 : $_POST["spec_param"]; 
         
         if($type === "Sedan"){
